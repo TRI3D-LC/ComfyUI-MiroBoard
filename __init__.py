@@ -125,8 +125,8 @@ class AddImageMiroBoard:
             writeToDB(y_start)
         else:
             y_start = readFromDB()
-        width = 200
-        gap_x = 40
+        width = 400
+        gap_x = int(0.2*width)
         # board_id = "uXjVK75fvYY="
 
         cnt = 0
