@@ -48,7 +48,37 @@ def addImage(boardId, fileObj, x, y, width):
     response = requests.post(url, headers=headers, data={}, files=files)
     print(response.text)
 
+def addNote(boardId, content, x,y,width):
+    import json
+    from os import path
+    import requests
+    import dotenv
+    import os
+    dotenv.load_dotenv()
+    oAuthToken = os.getenv("MIRO_OAUTH_TOKEN")
+    import requests
 
+    url = f"https://api.miro.com/v2/boards/{boardId}/sticky_notes"
+
+    payload = {
+        "data": { "content": content },
+        "position": {
+            "x": x,
+            "y": y,
+        },
+        "geometry": {
+            "width": width,
+        },
+    }
+    headers = {
+        "Authorization": f"Bearer {oAuthToken}",
+        "accept": "application/json",
+        "content-type": "application/json"
+    }
+
+    response = requests.post(url, json=payload, headers=headers)
+
+    print(response.text)
 #get current file path and directory 
 def getDBLocalPath():
     import os
@@ -96,6 +126,9 @@ class AddImageMiroBoard:
                 "input_image_3": ("IMAGE", ),
                 "input_image_4": ("IMAGE", ),
                 "input_image_5": ("IMAGE", ),
+                "notes" : ("STRING", {
+                    "default": "Notes",
+                }),
             },
         }
     FUNCTION = "run"
@@ -103,7 +136,7 @@ class AddImageMiroBoard:
     RETURN_TYPES = ()
     CATEGORY = "MiroBoard"
     # def run(self, input_image_1):
-    def run(self, board_id, y_start, x_offset, input_image_1, input_image_2, input_image_3, input_image_4, input_image_5):
+    def run(self, board_id, y_start, x_offset, input_image_1, input_image_2, input_image_3, input_image_4, input_image_5, notes):
 
         if board_id == "BOARD_ID":
             return { "ui": { "images": list() } }
@@ -132,7 +165,10 @@ class AddImageMiroBoard:
         gap_x = int(0.2*width)
         # board_id = "uXjVK75fvYY="
 
-        cnt = 0
+        cnt = -1
+
+        addNote(board_id, notes, x_offset + cnt*(width + gap_x), y_start, width)
+        cnt+=1
         for input_image in input_images:
             if input_image is None:
                 continue
