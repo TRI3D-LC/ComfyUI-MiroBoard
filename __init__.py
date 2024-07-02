@@ -82,8 +82,11 @@ class AddImageMiroBoard:
     def INPUT_TYPES(s):
         return {
             "required": {
-                 "y_start": ("INT", {
+                "y_start": ("INT", {
                     "default": -1,
+                }),
+                "x_offset": ("INT", {
+                    "default": 0,
                 }),
                 "board_id": ("STRING", {
                     "default": "BOARD_ID",
@@ -100,7 +103,7 @@ class AddImageMiroBoard:
     RETURN_TYPES = ()
     CATEGORY = "MiroBoard"
     # def run(self, input_image_1):
-    def run(self, board_id, y_start, input_image_1, input_image_2, input_image_3, input_image_4, input_image_5):
+    def run(self, board_id, y_start, x_offset, input_image_1, input_image_2, input_image_3, input_image_4, input_image_5):
 
         if board_id == "BOARD_ID":
             return { "ui": { "images": list() } }
@@ -142,7 +145,7 @@ class AddImageMiroBoard:
             file_obj.seek(0)
 
             
-            addImage(board_id, file_obj, x=cnt*(width + gap_x), y=y_start, width=width)
+            addImage(board_id, file_obj, x=x_offset + cnt*(width + gap_x), y=y_start, width=width)
             cnt+=1 
         
         writeToDB(y_start + 2*width)
@@ -153,7 +156,7 @@ class AddImageMiroBoard:
 NODE_CLASS_MAPPINGS = {
     "add-image-miro-board": AddImageMiroBoard,
 }
-VERSION = "0.1"
+VERSION = "0.1.1"
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "add-image-miro-board": "Add Image Miro Board" + " v" + VERSION,
