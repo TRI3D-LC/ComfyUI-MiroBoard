@@ -126,6 +126,7 @@ class AddImageMiroBoard:
                 "input_image_3": ("IMAGE", ),
                 "input_image_4": ("IMAGE", ),
                 "input_image_5": ("IMAGE", ),
+                "input_image_6": ("IMAGE", ),
                 "notes" : ("STRING", {
                     "default": "Notes",
                 }),
@@ -136,7 +137,7 @@ class AddImageMiroBoard:
     RETURN_TYPES = ()
     CATEGORY = "MiroBoard"
     # def run(self, input_image_1):
-    def run(self, board_id, y_start, x_offset, input_image_1, input_image_2, input_image_3, input_image_4, input_image_5, notes):
+    def run(self, board_id, y_start, x_offset, input_image_1, input_image_2, input_image_3, input_image_4, input_image_5, input_image_6, notes):
 
         if board_id == "BOARD_ID":
             return { "ui": { "images": list() } }
@@ -154,7 +155,7 @@ class AddImageMiroBoard:
             ]
             return img
         
-        input_images = [input_image_1, input_image_2, input_image_3, input_image_4, input_image_5]
+        input_images = [input_image_1, input_image_2, input_image_3, input_image_4, input_image_5, input_image_6]
         # input_images = [input_image_1]
 
         if y_start >= 0:
@@ -192,7 +193,7 @@ class AddImageMiroBoard:
 NODE_CLASS_MAPPINGS = {
     "add-image-miro-board": AddImageMiroBoard,
 }
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "add-image-miro-board": "Add Image Miro Board" + " v" + VERSION,
