@@ -116,28 +116,35 @@ class AddImageMiroBoard:
                     "default": -1,
                 }),
                 "x_offset": ("INT", {
-                    "default": 0,
+                    "default": 125000,
+                }),
+                "width": ("INT", {
+                    "default": 400,
                 }),
                 "board_id": ("STRING", {
-                    "default": "BOARD_ID",
+                    "default": "uXjVK2obIWs=",
                 }),
                 "input_image_1": ("IMAGE", ),
+                "notes" : ("STRING", {
+                    "default": "Notes",
+                }),
+            },
+            "optional": {
                 "input_image_2": ("IMAGE", ),
                 "input_image_3": ("IMAGE", ),
                 "input_image_4": ("IMAGE", ),
                 "input_image_5": ("IMAGE", ),
                 "input_image_6": ("IMAGE", ),
-                "notes" : ("STRING", {
-                    "default": "Notes",
-                }),
-            },
+            }
         }
     FUNCTION = "run"
     OUTPUT_NODE = True
     RETURN_TYPES = ()
     CATEGORY = "MiroBoard"
     # def run(self, input_image_1):
-    def run(self, board_id, y_start, x_offset, input_image_1, input_image_2, input_image_3, input_image_4, input_image_5, input_image_6, notes):
+    def run(self, board_id, y_start, x_offset, width, input_image_1, notes, 
+            input_image_2=None, input_image_3=None, input_image_4=None, 
+            input_image_5=None, input_image_6=None):
 
         if board_id == "BOARD_ID":
             return { "ui": { "images": list() } }
@@ -155,14 +162,14 @@ class AddImageMiroBoard:
             ]
             return img
         
-        input_images = [input_image_1, input_image_2, input_image_3, input_image_4, input_image_5, input_image_6]
-        # input_images = [input_image_1]
+        # Filter out None images
+        input_images = [img for img in [input_image_1, input_image_2, input_image_3, input_image_4, input_image_5, input_image_6] if img is not None]
 
         if y_start >= 0:
             writeToDB(y_start)
         else:
             y_start = readFromDB()
-        width = 400
+        width = width
         gap_x = int(0.2*width)
         # board_id = "uXjVK75fvYY="
 
@@ -171,9 +178,6 @@ class AddImageMiroBoard:
         addNote(board_id, notes, x_offset + cnt*(width + gap_x), y_start, width)
         cnt+=1
         for input_image in input_images:
-            if input_image is None:
-                continue
-
             input_image = tensor_to_cv2_img(input_image[0])
             input_image = cv2.cvtColor(input_image, cv2.COLOR_BGR2RGB)
             file_obj = io.BytesIO()
@@ -193,7 +197,7 @@ class AddImageMiroBoard:
 NODE_CLASS_MAPPINGS = {
     "add-image-miro-board": AddImageMiroBoard,
 }
-VERSION = "0.1.2"
+VERSION = "0.1.3"
 # A dictionary that contains the friendly/humanly readable titles for the nodes
 NODE_DISPLAY_NAME_MAPPINGS = {
     "add-image-miro-board": "Add Image Miro Board" + " v" + VERSION,
