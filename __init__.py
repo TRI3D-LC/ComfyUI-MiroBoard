@@ -122,7 +122,7 @@ class AddImageMiroBoard:
                     "default": 400,
                 }),
                 "board_id": ("STRING", {
-                    "default": "uXjVK2obIWs=",
+                    "default": "BOARD_ID",
                 }),
                 "input_image_1": ("IMAGE", ),
                 "notes" : ("STRING", {
