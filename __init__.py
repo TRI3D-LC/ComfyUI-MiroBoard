@@ -5,7 +5,7 @@ import torch
 import json
 import requests
 import io
-
+import io
 
 def addImage(boardId, fileObj, x, y, width):
     import json
