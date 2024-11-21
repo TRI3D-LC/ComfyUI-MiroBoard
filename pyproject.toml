@@ -1,0 +1,15 @@
+[project]
+name = "comfyui-miroboard"
+description = "Nodes: add-image-miro-board."
+version = "1.0.0"
+license = "LICENSE"
+dependencies = ["python-dotenv", "requests"]
+
+[project.urls]
+Repository = "https://github.com/TRI3D-LC/ComfyUI-MiroBoard"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "ComfyUI-MiroBoard"
+Icon = ""
